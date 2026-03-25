@@ -6,12 +6,15 @@ class FIFO
 {
 	private:
 		int array[10] = {};
-		int start = array[0];
-		int end = array[array - 1]
+		int start = 0;
+		int end = -1;
+		int CountSize = 0;
 
 	public:
 		int Enqueue() {
 			int Queue;
+			int DeQueue;
+			int peek;
 			
 	}
 }

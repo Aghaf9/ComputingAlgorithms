@@ -32,14 +32,23 @@ class FIFO
 			return FirstValue;
 			}
 
-		int peek(void){
+		int Peek(void){
 			if (CountSize == 0) {
 				return 0;
 			}
-			int 
+			return array[start];
+			
+		}
+
+		int CanacelOrder(int target) {
+			i = (sizeof(array)/sizeof(array[0]));
+			for (i > ; i++) {
+				
+	
+			}
 
 		}
-}
+};
 
 
 

@@ -11,19 +11,21 @@ class FIFO
 		int CountSize = 0;
 		
 	public:
-		int Enqueue() {
-			if (CountSize == 10) {
-				return;
+		int Enqueue(int newValue) {
+			if (CountSize == sizeof(array) / sizeof(array[0])) {
+				return 0;
 			}
-			array[end] = array[end+1];
+			end++;
+			array[end] = newValue;
 			CountSize++;
+			return 1;
 		
 		}
 
-
-
-
 		int DeQueue;
+
+
+
 		int peek;
 }
 

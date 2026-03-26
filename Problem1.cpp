@@ -9,14 +9,22 @@ class FIFO
 		int start = 0;
 		int end = -1;
 		int CountSize = 0;
-
+		
 	public:
 		int Enqueue() {
-			int Queue;
-			int DeQueue;
-			int peek;
-			
-	}
+			if (CountSize == 10) {
+				return;
+			}
+			array[end] = array[end+1];
+			CountSize++;
+		
+		}
+
+
+
+
+		int DeQueue;
+		int peek;
 }
 
 

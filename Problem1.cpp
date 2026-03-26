@@ -22,11 +22,23 @@ class FIFO
 		
 		}
 
-		int DeQueue;
+		int DeQueue(void) {
+			if (CountSize == 0){
+				return 0;
+			}
+			int FirstValue = array[start];
+			start++;		
+			CountSize--;
+			return FirstValue;
+			}
 
+		int peek(void){
+			if (CountSize == 0) {
+				return 0;
+			}
+			int 
 
-
-		int peek;
+		}
 }
 
 

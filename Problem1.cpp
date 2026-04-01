@@ -41,14 +41,18 @@ class FIFO
 		}
 
 		int CanacelOrder(int target) {
-			i = (sizeof(array)/sizeof(array[0]));
-			for (i > ; i++) {
-				
-	
+			for (int i = start; i <= end; i++){
+				if (array[i] == target)
+					for (int j = i; j < end; j++){
+						array[j] = array[j + 1];
+					}
+					end--;
+					CountSize--;
+					return 1;
 			}
-
 		}
-};
+		return 0;
+}};
 
 
 

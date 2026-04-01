@@ -30,7 +30,7 @@ class FIFO
 			start++;		
 			CountSize--;
 			return FirstValue;
-			}
+		}
 
 		int Peek(void){
 			if (CountSize == 0) {
@@ -40,51 +40,52 @@ class FIFO
 			
 		}
 
-		int CanacelOrder(int target) {
+		int CancelOrder(int target) {
 			for (int i = start; i <= end; i++){
-				if (array[i] == target)
-					for (int j = i; j < end; j++){
+				if (array[i] == target) {
+					for (int j = i; j < end; j++) {
 						array[j] = array[j + 1];
 					}
 					end--;
 					CountSize--;
 					return 1;
+				}
 			}
-		}
-		return 0;
-}};
-
-
-
-//FIFO Queue
-//n = 0
-//Head[n], Tail = [length(n)/(n)]
-//Head[0+1], Tail[n+1] shift to the right
-
-
-//EnQueue
-
-
-//DeQueue
-
-
-//ViewNextOrder
-
-
-
-
-
-
+			return 0;
+			}
+};
 
 
 int main() {
 
-int FIFOarray[10] = {}
+	FIFO array1;
+	
+	//Enqueue values
+	cout<<"10 is Enqueued: " << array1.Enqueue(10) << endl;
+	cout<<"20 is Enqueued: " << array1.Enqueue(20) << endl;
+	cout<<"30 is Enqueued: " << array1.Enqueue(30) << endl;
+	
+	//Peek at front value
+	cout << "Peek: " << array1.Peek() << endl;
 
 
+	//Dequeue 
+	cout << "Dequeue: " << array1.DeQueue() << endl;
+
+	//Peek and check again
+	cout << "Peek again is: " << array1.Peek() << endl;
 
 
+	//cancel order
+	cout << "Cancelling 90" << array1.CancelOrder(90) << endl;
+	
+	//dequeue rest
+	cout << "Dequeue: " << array1.DeQueue() << endl;
+	cout << "DeQueue: " << array1.DeQueue() << endl;
 
+	//See what happens when DeQueue() is called when empopty
+	cout << "Dequeue: " << array1.DeQueue() << endl;
 
+	return 0;
 
 }

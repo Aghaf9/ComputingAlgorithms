@@ -56,7 +56,22 @@ class FIFO
 };
 
 
+class FIFO_LinkedList {
+	private:
+		class Node {
+		
+
+		}
+	public:
+
+
+};
+
+
+
 int main() {
+
+//__________________________________________________________________
 
 	FIFO array1;
 	
@@ -85,6 +100,19 @@ int main() {
 
 	//See what happens when DeQueue() is called when empopty
 	cout << "Dequeue: " << array1.DeQueue() << endl;
+//___________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
 
 	return 0;
 

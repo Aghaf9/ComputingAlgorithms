@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-
+//array FIFO queue
 class FIFO 
 {
 	private:
@@ -55,17 +55,60 @@ class FIFO
 			}
 };
 
+//___________________________________________________________________
+//Linked list FIFO queue
 
 class FIFO_LinkedList {
 	private:
 		class Node {
-		
+			int data;
+			node* next;
+		node(int data){
+			this->data=data;
+			next = NULL;
+		}
+		}		
+};
+class stack{
+	node* top;
+	int size'
+	public:
+		stack(){
+			top=NULL;
+			size=0;
+		}
+		void push(int x){
+			node* n = new node;
+			n->data=x;
+			n->next=top;
+			top=n; 
+			size++;
+		}
+		void pop(){
+			if(top == NULL){
+				cout<<"Stack is empty\n";
+				return;
+			}
+			node* ThisDeletesPTR = top;
+			top = top -> next;
+			delete ThisDeletesPTR; 
+			size--;
+		}
+
+		int Top(){
+			if(top == NULL){
+				cout<<"stack is empty\n";
+				return -1;
+			}
+			bool empty(){
+				return top ==NULL;
+			}
+			int Size(){
+				return size;
+			}
 
 		}
-	public:
-
-
-};
+}
 
 
 

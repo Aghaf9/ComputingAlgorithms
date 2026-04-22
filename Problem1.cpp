@@ -58,59 +58,55 @@ class FIFO
 //___________________________________________________________________
 //Linked list FIFO queue
 
-class FIFO_LinkedList {
-	private:
-		class Node {
-			int data;
-			node* next;
-		node(int data){
+class stack {
+private:
+	class Node {
+	public:
+		int data;
+		Node* next;
+	
+		Node(int data){
 			this->data=data;
 			next = NULL;
 		}
-		}		
+	};
+	Node * TopOfNode;
+	int size;
+public:
+	stack(){
+		TopOfNode=NULL;
+		size=0;
+	}
+	void push(int x){
+		Node* n = new Node(x);
+		n->next=TopOfNode;
+		TopOfNode=n; 
+		size++;
+	}
+	void pop(){
+		if(TopOfNode == NULL){
+			cout<<"Stack is empty\n";
+			return;
+		}
+		Node* ThisDeletesPTR = TopOfNode;
+		TopOfNode = TopOfNode -> next;
+		delete ThisDeletesPTR; 
+		size--;
+	}
+	int Top(){
+		if (TopOfNode == NULL){
+			cout<<"stack is empty\n";
+			return -1;
+		}
+		return TopOfNode->data;
+	}
+	bool empty(){
+		return TopOfNode ==NULL;
+		}
+	int Size(){
+		return size;
+	}
 };
-class stack{
-	node* top;
-	int size'
-	public:
-		stack(){
-			top=NULL;
-			size=0;
-		}
-		void push(int x){
-			node* n = new node;
-			n->data=x;
-			n->next=top;
-			top=n; 
-			size++;
-		}
-		void pop(){
-			if(top == NULL){
-				cout<<"Stack is empty\n";
-				return;
-			}
-			node* ThisDeletesPTR = top;
-			top = top -> next;
-			delete ThisDeletesPTR; 
-			size--;
-		}
-
-		int Top(){
-			if(top == NULL){
-				cout<<"stack is empty\n";
-				return -1;
-			}
-			bool empty(){
-				return top ==NULL;
-			}
-			int Size(){
-				return size;
-			}
-
-		}
-}
-
-
 
 int main() {
 

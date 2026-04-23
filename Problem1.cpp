@@ -2,7 +2,7 @@
 using namespace std;
 
 //array FIFO queue
-class FIFO 
+class FIFOArray 
 {
 	private:
 		int array[10] = {};
@@ -58,7 +58,7 @@ class FIFO
 //___________________________________________________________________
 //Linked list FIFO queue
 
-class stack {
+class FIFOLinkedList {
 private:
 	class Node {
 	public:
@@ -70,50 +70,113 @@ private:
 			next = NULL;
 		}
 	};
-	Node * TopOfNode;
+	Node* StartOfLinkedList;
+	Node* EndOfLinkedList;
 	int size;
 public:
-	stack(){
-		TopOfNode=NULL;
+	FIFOLinkedList(){
+		StartOfLinkedList=NULL;
+		EndOfLinkedList = NULL;
 		size=0;
 	}
-	void push(int x){
+
+//Queue Linked List
+
+	int EnqueueLinkedList(int x){
 		Node* n = new Node(x);
-		n->next=TopOfNode;
-		TopOfNode=n; 
-		size++;
-	}
-	void pop(){
-		if(TopOfNode == NULL){
-			cout<<"Stack is empty\n";
-			return;
+		if (EndOfLinkedList == NULL) {
+			StartOfLinkedList = n;
+			EndOfLinkedList = n;
+		} else {
+			EndOfLinkedList -> next = n;
+			EndOfLinkedList = n;
 		}
-		Node* ThisDeletesPTR = TopOfNode;
-		TopOfNode = TopOfNode -> next;
+			size++;
+			return 1;
+	}
+	
+//Dequeue Linked list
+
+	int DeQueue(){
+		if(StartOfLinkedList == NULL){
+			cout<<"Linked List is empty\n" << endl;
+			return 0;
+		}
+		int FirstValue = StartOfLinkedList -> data;
+		Node* ThisDeletesPTR = StartOfLinkedList;
+		StartOfLinkedList = StartOfLinkedList -> next;
 		delete ThisDeletesPTR; 
 		size--;
-	}
-	int Top(){
-		if (TopOfNode == NULL){
-			cout<<"stack is empty\n";
+
+		if (StartOfLinkedList == NULL) {
+			EndOfLinkedList = NULL;
+		}
+		return FirstValue;
+}
+
+// Peek at the first number in Linked list
+
+	int PeekLinkedList(){
+		if (StartOfLinkedList == NULL){
+			cout<<"Linked list is empty\n" << endl;
 			return -1;
 		}
-		return TopOfNode->data;
+		return StartOfLinkedList->data;
 	}
-	bool empty(){
-		return TopOfNode ==NULL;
+
+
+	int CancelOrderLinkedList(int target){
+		if (StartOfLinkedList ==NULL){
+			cout<<"Linked List is empty\n" << endl;
+			return 0;
 		}
-	int Size(){
-		return size;
+		
+		if (StartOfLinkedList-> data == target) {
+			Node* temp = StartOfLinkedList;
+			StartOfLinkedList = StartOfLinkedList->next;
+			delete temp;
+			size--;
+
+			if (StartOfLinkedList == NULL){
+				EndOfLinkedList = NULL;
+			}
+			return 1;
+			}
+			
+
+			Node* select = StartOfLinkedList;
+			while (select-> next != NULL){
+				if(select->next->data == target){
+					Node* temp = select->next;
+					select->next = temp->next;
+
+
+					if (temp == EndOfLinkedList) {
+						EndOfLinkedList = select;
+					}
+					delete temp;
+					size--;
+					return 1;
+				}
+				select = select->next;
+			}
+			return 0;
 	}
+		bool IsEmpty() {
+			return StartOfLinkedList == NULL;
+		}
+		int Size() {
+			return size;
+		}
 };
 
 int main() {
 
 //__________________________________________________________________
 
-	FIFO array1;
-	
+	//FIFO with array;
+	FIFOArray array1;
+
 	//Enqueue values
 	cout<<"10 is Enqueued: " << array1.Enqueue(10) << endl;
 	cout<<"20 is Enqueued: " << array1.Enqueue(20) << endl;
@@ -131,7 +194,7 @@ int main() {
 
 
 	//cancel order
-	cout << "Cancelling 90" << array1.CancelOrder(90) << endl;
+	cout << "Cancelling 90: " << array1.CancelOrder(90) << endl;
 	
 	//dequeue rest
 	cout << "Dequeue: " << array1.DeQueue() << endl;
@@ -141,18 +204,34 @@ int main() {
 	cout << "Dequeue: " << array1.DeQueue() << endl;
 //___________________________________________________________________
 
+	//FIFO Linked list
+	FIFOLinkedList LinkedList1;
+	//Enqueue values
+	cout<<"80 is enqueued: " << LinkedList1.EnqueueLinkedList(80) << endl;
+        cout<<"90 is enqueued: " << LinkedList1.EnqueueLinkedList(90) << endl;
+        cout<<"100 is enqueued: " << LinkedList1.EnqueueLinkedList(100) << endl;
+
+	//Peek at front value
+	cout << "Peek: " << LinkedList1.PeekLinkedList() << endl;
 
 
+	//Dequeue 
+	cout << "Dequeue: " << LinkedList1.DeQueue() << endl;
+
+	//Peek and check again
+	cout << "Peek again is: " << LinkedList1.PeekLinkedList() << endl;
 
 
+	//cancel order
+	cout << "Cancelling 90: " << LinkedList1.CancelOrderLinkedList(90) << endl;
+	
+	//dequeue rest
+	cout << "Dequeue: " << LinkedList1.DeQueue() << endl;
+	cout << "DeQueue: " << LinkedList1.DeQueue() << endl;
 
-
-
-
-
-
-
-
+	//See what happens when DeQueue() is called when empopty
+	cout << "Dequeue: " << LinkedList1.DeQueue() << endl;
+	
 	return 0;
 
 }

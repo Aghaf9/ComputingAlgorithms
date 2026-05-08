@@ -43,15 +43,28 @@ class MergeSort
 				k++;
 			}
 
-
-
+			while (i < leftTree) {
+				array[k] = left[i];
+				i++;
+				k++;
+			}
+			
+			while (j < rightTree) {
+				array[k] = right[j];
+				j++;
+				k++;
+			}
+		}
 
 		void mergeSort(int array[], int low, int high) {
-			//only sort if if there are more than 1 element
 			if (low < high) {
-				int pivotIndex = merge(array, low, high);
-				MergeSort(array, low, pivotIndex - 1);
-				MergeSort(array, pivotIndex + 1, high);
+				int mid = low + (high - low) / 2;
+
+				int mergeSort(array, low, mid);
+				int mergeSort(array, mid + 1, high);
+
+
+				int mergeSort(array, low, mid, high);
 			}
 		}
 };

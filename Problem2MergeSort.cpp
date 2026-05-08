@@ -22,21 +22,28 @@ class MergeSort
 		void merge(int array[], int low, int mid, int high) {
 			int leftTree = mid - low + 1;
 			int rightTree = high - mid;
+			
+			int left[leftTree];
+			int right[rightTree];
 
+			for (int i = 0; i < leftTree; i++){
+				left[i] = array[low + i]}
 
+			for (int j = 0; i < rightTree; i++){
+				right[j] = array[mid + 1 + j]}
 
+			int i = 0, j = 0, k = low;
+			
 
-			//loop from low to hight-1
-			for (int j = low; j < high; j++) {
-				//if current < middle
-				if(array[j] < middle){
-					j++;
-					//swap current element with element at i
+			while (i < leftTree && j < rightTree){
+				if (left[i] <= right[j]){
+					array[k] = left[i];
+					i++
 				}
+				k++;
 			}
 
 
-		}
 
 
 		void mergeSort(int array[], int low, int high) {

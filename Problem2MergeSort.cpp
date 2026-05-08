@@ -27,10 +27,12 @@ class MergeSort
 			int right[rightTree];
 
 			for (int i = 0; i < leftTree; i++){
-				left[i] = array[low + i]}
+				left[i] = array[low + i];
+			}
 
-			for (int j = 0; i < rightTree; i++){
-				right[j] = array[mid + 1 + j]}
+			for (int j = 0; j < rightTree; j++){
+				right[j] = array[mid + 1 + j];
+			}
 
 			int i = 0, j = 0, k = low;
 			
@@ -38,7 +40,7 @@ class MergeSort
 			while (i < leftTree && j < rightTree){
 				if (left[i] <= right[j]){
 					array[k] = left[i];
-					i++
+					i++;
 				}
 				k++;
 			}
@@ -60,11 +62,11 @@ class MergeSort
 			if (low < high) {
 				int mid = low + (high - low) / 2;
 
-				int mergeSort(array, low, mid);
-				int mergeSort(array, mid + 1, high);
+				mergeSort(array, low, mid);
+				mergeSort(array, mid + 1, high);
 
 
-				int mergeSort(array, low, mid, high);
+				merge(array, low, mid, high);
 			}
 		}
 };

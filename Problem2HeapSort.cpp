@@ -7,16 +7,22 @@ class HeapSort
 {
 	public:
 		void sort(int array[], int size) {
-			heapSort(array, 0, size - 1);
+			heapSort(array, size);
 		}
 
 	private:
-		void Heap(int array[], int parent, int left, int right) {
+		void Heapify(int array[], int parent, int size) {
 			int leftChild = 2 * parent + 1;
 			
 			int rightChild = 2 * parent + 2;
 			
-			
+			if (leftChild < size && array[leftChild] > array[largest]) {
+				largest = leftChild;
+			}
+
+			if (rightChild < size && array[rightChild] > array[largest]) {
+				largest = rightChild;
+			}
 
 }
 

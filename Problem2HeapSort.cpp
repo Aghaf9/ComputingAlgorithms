@@ -11,7 +11,8 @@ public:
 	}
 
 private:
-	void Heapify(int array[], int parent, int size) {
+	void Heapify(int array[], int size, int parent) {
+		int largest = parent;
 		int leftChild = 2 * parent + 1;
 	
 		int rightChild = 2 * parent + 2;
@@ -25,7 +26,7 @@ private:
 		}
 			
 
-		if (larget != parent) {
+		if (largest != parent) {
 			swap(array[parent], array[largest]);
 			Heapify(array, size, largest);
 
@@ -37,7 +38,7 @@ private:
 			Heapify(array, size, i);
 		}
 	
-		for (int i = sise - 1; i > 0; i--){
+		for (int i = size - 1; i > 0; i--){
 		swap(array[0], array[i]);
 		Heapify(array, i, 0);
 		}
@@ -48,12 +49,25 @@ private:
 
 
 int main(){
+	int array[10] = {10, 7, 8, 9, 1, 5, 3, 2, 4, 6};
+	int size = sizeof(array) / sizeof(array[0]);
+	HeapSort qs;	
+	//print unsorted array
+	cout << "Unsorted array: ";
+	for (int i = 0; i < size; i++) cout << array[i] << " ";
+	cout << endl;
 
+	//call quicksort
+	qs.sort(array, size);
 
-
-
-
+	//print sorted array
+	cout << "Sorted array: ";
+	for (int i = 0; i < size; i++) cout << array[i] << " ";
+	cout << endl;
 
 
 	return 0;
 }
+
+
+

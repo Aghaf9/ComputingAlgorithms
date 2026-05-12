@@ -11,11 +11,12 @@ class HeapSort
 		}
 
 	private:
-
-
-
-
-
+		void Heap(int array[], int parent, int left, int right) {
+			int leftChild = 2 * parent + 1;
+			
+			int rightChild = 2 * parent + 2;
+			
+			
 
 }
 

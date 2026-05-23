@@ -22,7 +22,7 @@ public:
 	//constructor
 	Graph(int V){
 		//number of verticles
-		Vertices = V
+		Vertices = V;
 		//creating ajacency list array
 		adjacency = new list<pair<int, int>>[V];
 	}
@@ -30,28 +30,28 @@ public:
 	void addEdges(int v1, int v2, int weight){
 		//adding edges from v1 to v2
 		//stroing destinations vertex and weight
-		adj[v1].push_back(make_pair(v2, weight));
+		adjacency[v1].push_back(make_pair(v2, weight));
 	}
 	//dijkstra shortest path func
-	void sortestPath(int start){
+	void shortestPath(int start){
 		//setting used like a priority queue
-		//stroing (distance, vertex)
+		//stroing (distances, vertex)
 		set<pair<int, int>> queue;
 
-		//vector storing shortest distance
+		//vector storing shortest distances
 		//all distances inittially star as infinities
-		vector<int> distances(V, INF)
+		vector<int> distances(Vertices, INF);
 
 		//insert starting node into queue
 		queue.insert(make_pair(0, start));
 
-		//the distance to starting node is 0
-		distance[start] = 0;
+		//the distances to starting node is 0
+		distances[start] = 0;
 
 		
 		//continue while queue is not empty
 		while(!queue.empty()){
-			//getting smallest distance element
+			//getting smallest distances element
 			pair<int, int> current = *(queue.begin());
 
 			//removing it from queue
@@ -75,16 +75,16 @@ public:
 					int weight = edge->second;
 
 					//checking if shorter path exist
-					if(distance[nextVertex] > distances[currentVertex] + weight) {
+					if(distances[nextVertex] > distances[currentVertex] + weight) {
 						
 						//remvoing old distances from set
 						queue.erase(make_pair(distances[nextVertex], nextVertex));
 						
-						//updating shortest distance
-						distance[nextVertex] = distance[currentVertex] + weight;
+						//updating shortest distances
+						distances[nextVertex] = distances[currentVertex] + weight;
 						
-						//inserting updated distance
-						queue.insert(make_pair(distance[nextVertex], makeVertex));
+						//inserting updated distances
+						queue.insert(make_pair(distances[nextVertex], nextVertex));
 			
 						
 
@@ -93,9 +93,9 @@ public:
 
 		}
 		//displaying results
-		cout<<"Shortest distance from vertex: "<< start << endl;
+		cout<<"Shortest distances from vertex: "<< start << endl;
 		//printing all shortest distances
-		for(int i = 0; i < V; i++) {
+		for(int i = 0; i < Vertices; i++) {
 			cout<< "Vertex: "
 			<< i
 			<< "\tDistance: "
@@ -113,12 +113,12 @@ int main(){
 	Graph g(5);
 
 	//add edges
-	g.addEdge(0, 1, 4);
-	g.addEdge(0, 2, 8);
-	g.addEdge(1, 2, 2);
-	g.addEdge(1, 3, 5);
-	g.addEdge(2, 3, 3);
-	g.addEdge(3, 4, 2);
+	g.addEdges(0, 1, 4);
+	g.addEdges(0, 2, 8);
+	g.addEdges(1, 2, 2);
+	g.addEdges(1, 3, 5);
+	g.addEdges(2, 3, 3);
+	g.addEdges(3, 4, 2);
 
 
 	//dijkstras algo starting with  vertex 0

@@ -107,4 +107,22 @@ public:
 
 };
 
+int main(){
 
+//graph with 5 vertices
+	Graph g(5);
+
+	//add edges
+	g.addEdge(0, 1, 4);
+	g.addEdge(0, 2, 8);
+	g.addEdge(1, 2, 2);
+	g.addEdge(1, 3, 5);
+	g.addEdge(2, 3, 3);
+	g.addEdge(3, 4, 2);
+
+
+	//dijkstras algo starting with  vertex 0
+	g.shortestPath(0);
+
+	return 0;
+}

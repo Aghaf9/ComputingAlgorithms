@@ -49,9 +49,62 @@ public:
 		distance[start] = 0;
 
 		
-		//
-		
+		//continue while queue is not empty
+		while(!queue.empty()){
+			//getting smallest distance element
+			pair<int, int> current = *(queue.begin());
+
+			//removing it from queue
+			queue.erase(queue.begin());
+
+			//getting current index
+			int currentVertex = current.second;
+
+
+			//looping through adjacencylist
+			for(auto edge = adjacency[currentVertex].begin();
+					edge!= adjacency[currentVertex].end();
+					edge++){
+					
+
+
+					//getting neibouring vertex values
+					int nextVertex = edge->first;
+
+					//getting edge weights
+					int weight = edge->second;
+
+					//checking if shorter path exist
+					if(distance[nextVertex] > distances[currentVertex] + weight) {
+						
+						//remvoing old distances from set
+						queue.erase(make_pair(distances[nextVertex], nextVertex));
+						
+						//updating shortest distance
+						distance[nextVertex] = distance[currentVertex] + weight;
+						
+						//inserting updated distance
+						queue.insert(make_pair(distance[nextVertex], makeVertex));
+			
+						
+
+				}
+			}
+
+		}
+		//displaying results
+		cout<<"Shortest distance from vertex: "<< start << endl;
+		//printing all shortest distances
+		for(int i = 0; i < V; i++) {
+			cout<< "Vertex: "
+			<< i
+			<< "\tDistance: "
+			<< distances[i]
+			<< endl;
+		}
 
 	}
 
 };
+
+

@@ -219,18 +219,18 @@ int main() {
 
     AVLTree warehouse;
 
-    // Insert warehouse items
+    //insert warehouse items
     warehouse.insert(50, "Box A");
     warehouse.insert(30, "Box B");
     warehouse.insert(70, "Box C");
     warehouse.insert(50, "Box D");
     warehouse.insert(20, "Box E");
 
-    // Print sorted inventory
+    //print sorted inventory
     cout << "Inventory sorted by weight:\n";
     warehouse.display();
 
-    // Search example
+    //search example
     cout << "\nSearching for 50kg:\n";
 
     vector<string> found =
@@ -239,7 +239,7 @@ int main() {
     for (const string& item : found)
         cout << item << endl;
 
-    // Delete example
+    //delete example
     warehouse.remove(30);
 
     cout << "\nAfter removing 30kg:\n";
@@ -247,3 +247,4 @@ int main() {
 
     return 0;
 }
+

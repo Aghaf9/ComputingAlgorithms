@@ -63,11 +63,22 @@ public:
 		vector<int> weight(Vertices, INF);
 
 
-		//insert starting node into queue
+		//storing tolls paid
+		vector<int> tollCost(Vertices, INF);
+
+
+		//storing prev vertex to find the path
+		vector<int> parent(Vertices, -1);
+
+
+		//starting vals
+		cost[start] = 0;
+		weight[start] = 0;
+		tollCost[start] = 0;
+
 		queue.insert(make_pair(0, start));
 
-		//the distances to starting node is 0
-		distances[start] = 0;
+
 
 		
 		//continue while queue is not empty

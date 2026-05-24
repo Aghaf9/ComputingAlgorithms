@@ -13,9 +13,11 @@ class Graph {
 
 private:
 	int Vertices;
-	//stores (neighbour, weight)
+	//storing roads (neighbour, weight)
 	list<pair<int, int>> *adjacency;
 
+	//storing tolls for each intersection
+	vector<int> tolls;
 
 
 public:
@@ -25,15 +27,29 @@ public:
 		Vertices = V;
 		//creating ajacency list array
 		adjacency = new list<pair<int, int>>[V];
+		
+
+		//initially all tolls are 0
+		tolls.resize(V, 0);
 	}
+
+	//setting toll toll for a vertex (intersection)
+	void setToll(int vertex, int toll){
+		tolls[vertex] = toll;
+	}
+
+
+
 	//function to add edges
+	//weight is the distance
 	void addEdges(int v1, int v2, int weight){
 		//adding edges from v1 to v2
 		//stroing destinations vertex and weight
 		adjacency[v1].push_back(make_pair(v2, weight));
 	}
+
 	//dijkstra shortest path func
-	void shortestPath(int start){
+	void shortestPath(int start, int end, starting mode, int &finalDestination, int &finalToll){
 		//setting used like a priority queue
 		//stroing (distances, vertex)
 		set<pair<int, int>> queue;
@@ -41,6 +57,11 @@ public:
 		//vector storing shortest distances
 		//all distances inittially star as infinities
 		vector<int> distances(Vertices, INF);
+
+
+		//storing cost depending on the mode
+		vector<int> weight(Vertices, INF);
+
 
 		//insert starting node into queue
 		queue.insert(make_pair(0, start));

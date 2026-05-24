@@ -3,6 +3,8 @@
 #include<list>//linked list
 #include<set> 
 #include<utility>
+#include<string>
+#include<algorithm>
 
 //a large value representing infinity but is not infinity 
 #define INF 1000000
@@ -13,7 +15,7 @@ class Graph {
 
 private:
 	int Vertices;
-	//storing roads (neighbour, weight)
+	//storing roads (neighbour, distance)
 	list<pair<int, int>> *adjacency;
 
 	//storing tolls for each intersection
@@ -41,26 +43,27 @@ public:
 
 
 	//function to add edges
-	//weight is the distance
-	void addEdges(int v1, int v2, int weight){
+	//distance is the distance
+	void addEdges(int v1, int v2, int distance){
 		//adding edges from v1 to v2
-		//stroing destinations vertex and weight
-		adjacency[v1].push_back(make_pair(v2, weight));
+		//stroing destinations vertex and distance
+		adjacency[v1].push_back(make_pair(v2, distance));
+		adjacency[v2].push_back(make_pair(v1, distance));
 	}
 
 	//dijkstra shortest path func
-	void shortestPath(int start, int end, starting mode, int &finalDestination, int &finalToll){
+	vector<int> shortestPath(int start, int end, string mode, int &finalDistance, int &finalToll){
 		//setting used like a priority queue
 		//stroing (distances, vertex)
 		set<pair<int, int>> queue;
 
 		//vector storing shortest distances
 		//all distances inittially star as infinities
-		vector<int> distances(Vertices, INF);
+		vector<int> cost(Vertices, INF);
 
 
 		//storing cost depending on the mode
-		vector<int> weight(Vertices, INF);
+		vector<int> distance(Vertices, INF);
 
 
 		//storing tolls paid
@@ -73,8 +76,8 @@ public:
 
 		//starting vals
 		cost[start] = 0;
-		weight[start] = 0;
-		tollCost[start] = 0;
+		distance[start] = 0;
+		tollCost[start] = tolls[start];
 
 		queue.insert(make_pair(0, start));
 
@@ -103,20 +106,20 @@ public:
 					//getting neibouring vertex values
 					int nextVertex = edge->first;
 
-					//getting edge weights
-					int weight = edge->second;
+					//getting edge distances
+					int roadDistance = edge->second;
 
 
 
-					int newDistance = weight[currentVertex] + roadDistance;
+					int newDistance = distance[currentVertex] + roadDistance;
 					int newToll = tollCost[currentVertex] + tolls[nextVertex];
 
 
 					int newCost;
 
 
-					if (mode == "shoretest") {
-						newCost = newDistance
+					if (mode == "shortest") {
+						newCost = newDistance;
 					}
 					else if (mode == "cheapest"){
 						newCost = newToll;
@@ -126,23 +129,25 @@ public:
 					}
 
 
-					if(newCost < cost[newVertex]) {
-						}
 
 					//checking if shorter path exist
-					if(distances[nextVertex] > distances[currentVertex] + weight) {
+					if(newCost < cost[nextVertex]) {
 						
 						//remvoing old distances from set
-						queue.erase(make_pair(distances[nextVertex], nextVertex));
+						queue.erase(make_pair(cost[nextVertex], nextVertex));
 						
-						//updating shortest distances
-						distances[nextVertex] = distances[currentVertex] + weight;
-						
-						//inserting updated distances
-						queue.insert(make_pair(distances[nextVertex], nextVertex));
-			
-						
+						cost[nextVertex] = newCost;
 
+						distance[nextVertex] = newDistance;
+
+						tollCost[nextVertex] = newToll;
+
+
+						parent[nextVertex] = currentVertex;
+
+
+						//inserting updated distances
+						queue.insert(make_pair(cost[nextVertex], nextVertex));
 				}
 			}
 
@@ -182,45 +187,58 @@ public:
 		cout << "Path: ";
 
 		//printing each node as the alphabet (A, B, C, D,...)
-		for (inti = 0; i < path.size(); i++){
+		for (int i = 0; i < path.size(); i++){
 			cout << char('A' + path[i]);
 
 			if (i != path.size() - 1){
 				cout<<" -> ";
 			}
 		}
-	}
 
-
-	cout<< endl;
+	cout << endl;
 	cout << "Distance: " << distance<<endl;
 	cout << "Tolls: " << toll << endl;
 	cout << "Balanced cost: " << distance + toll << endl;
 	cout << endl;
-		}
+	}
 	//checking if route a is worse than b
-	bool isBadRoute(int distanceA, int tollA, int distanceB, tollB) {
+	bool isBadRoute(int distanceA, int tollA, int distanceB, int tollB) {
 		return distanceA > distanceB && tollA > tollB;
 	}
-
 };
 
 int main(){
 
-//graph with 5 vertices
-	Graph g(5);
+    //graph with 5 vertices: A, B, C, D, E
+    Graph g(5);
 
-	//add edges
-	g.addEdges(0, 1, 4);
-	g.addEdges(0, 2, 8);
-	g.addEdges(1, 2, 2);
-	g.addEdges(1, 3, 5);
-	g.addEdges(2, 3, 3);
-	g.addEdges(3, 4, 2);
+    //set tolls
+    g.setToll(0, 0); //A
+    g.setToll(1, 2); //B
+    g.setToll(2, 3); //C
+    g.setToll(3, 2); //D
+    g.setToll(4, 5); //E
 
+    //add edges / roads
+    g.addEdges(0, 1, 4); //A-B
+    g.addEdges(0, 2, 8); //A-C
+    g.addEdges(1, 2, 2); //B-C
+    g.addEdges(1, 3, 5); //B-D
+    g.addEdges(2, 3, 3); //C-D
+    g.addEdges(2, 4, 6); //C-E
+    g.addEdges(3, 4, 2); //D-E
 
-	//dijkstras algo starting with  vertex 0
-	g.shortestPath(0);
+    int d1, t1;
+    int d2, t2;
+    int d3, t3;
 
-	return 0;
+    vector<int> route1 = g.shortestPath(0, 4, "shortest", d1, t1);
+    vector<int> route2 = g.shortestPath(0, 4, "cheapest", d2, t2);
+    vector<int> route3 = g.shortestPath(0, 4, "balanced", d3, t3);
+
+    g.printRoute("Shortest route", route1, d1, t1);
+    g.printRoute("Cheapest route", route2, d2, t2);
+    g.printRoute("Balanced route", route3, d3, t3);
+
+    return 0;
 }

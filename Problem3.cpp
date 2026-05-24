@@ -2,6 +2,7 @@
 #include<vector>
 #include<string>
 #include<algorithm>
+#include<cmath>
 using namespace std;
 
 class AVLTree {
@@ -42,53 +43,55 @@ private:
 		//height = 1 + tallest child
 			node->getheight = 1 + max(height(node->left), height(node->right));	
 		}
-	//roations
 		Node* rotateRight(Node* y){
-			//then x becomes the new root of the subtree
-			Node* x = y->left;
-			
-			//T2 becomes the left child of y
-			Node* T2 = x->right;
 
-			//perform rotation
-			x->right = y;
-			y->left = T2;
+    //x becomes the new root
+  		  Node* x = y->left;
 
-			//updating height
-			updateHeight(y);
-			updateHeight(x);
+    //store subtree
+  		  Node* T2 = x->right;
 
-			//return new subree root
-			return x;
-		}
-		
+    //perform rotation
+  		  x->right = y;
+  		  y->left = T2;
 
-		
+    //update heights
+  		  updateHeight(y);
+  		  updateHeight(x);
 
-
-
+    //return new subtree root
+    return x;
+}
+		//roations
 		Node* rotateLeft(Node* x){
-			//y becomes the new root of subree
-			Node* y = x->right;
-			
-			//T2 becomes the right child of x
-			Node* T2 = y->left;
 
+    //y becomes the new root
+   		 Node* y = x->right;
 
-			//performing rotation
-			y->right = x;
-			x->left = T2;
-			
-			//return new subree root
-			return y;
+    //store subtree
+   		 Node* T2 = y->left;
+
+    //perform rotation
+ 		   y->left = x;
+  		  x->right = T2;
+
+    //update heights
+ 		   updateHeight(x);
+  		  updateHeight(y);
+
+    //return new subtree root
+ 		   return y;
 		}
 
+		
 
 
 
 		//rebalancing
 		
 		Node* rebalance(Node* node){
+			if (node == nullptr) return node;
+
 			//updating height first
 			updateHeight(node);
 			
@@ -194,6 +197,32 @@ private:
 			inorder(node->right);
 		}
 	}
+	Node* searchClosestNode(Node* node, int weight, Node* closest) {
+
+    		//if node is null return closest found
+    		if (!node) return closest;
+
+    		//update closest if current node is nearer
+    		if (!closest ||
+     		   abs(node->weight - weight) <
+     		   abs(closest->weight - weight)) {
+
+     		   closest = node;
+  		  }
+
+  		  //exact match
+ 		   if (weight == node->weight) {
+  		      return node;
+   		 }
+
+    		//search left
+ 		   if (weight < node->weight) {
+   		     return searchClosestNode(node->left, weight, closest);
+   		 }
+
+ 		   //search right
+  		  return searchClosestNode(node->right, weight, closest);
+}
 public:
 	void insert(int weight, const string& item) {
 		root = insert(root, weight, item);
@@ -211,40 +240,68 @@ public:
 	void display() {
 		inorder(root);
 	}
+	vector<string> searchClosest(int weight, int& returnedWeight, bool& exactMatch) {
+
+    		//find exact match first
+  		  Node* exact = search(root, weight);
+
+  		  //if exact found
+  		  if (exact) {
+   		     returnedWeight = exact->weight;
+   		     exactMatch = true;
+   		     return exact->items;
+  		  }
+
+   		 //find nearest node
+ 		   Node* closest =
+   		     searchClosestNode(root, weight, nullptr);
+
+  			  //if tree empty
+		    if (!closest) {
+			returnedWeight = -1;
+			exactMatch = false;
+      			  return {};
+    			}
+
+    //return nearest weight
+    returnedWeight = closest->weight;
+    exactMatch = false;
+
+    return closest->items;
+}
 };
 
 
 
 int main() {
-
     AVLTree warehouse;
 
-    //insert warehouse items
     warehouse.insert(50, "Box A");
     warehouse.insert(30, "Box B");
     warehouse.insert(70, "Box C");
     warehouse.insert(50, "Box D");
     warehouse.insert(20, "Box E");
+    warehouse.insert(65, "Box F");
 
-    //print sorted inventory
     cout << "Inventory sorted by weight:\n";
     warehouse.display();
 
-    //search example
+    int returnedWeight;
+    bool exactMatch;
+
     cout << "\nSearching for 50kg:\n";
+    vector<string> found = warehouse.searchClosest(50, returnedWeight, exactMatch);
+    cout << "Returned weight: " << returnedWeight << " exact: " << exactMatch << endl;
+    for (const string& item : found) cout << item << endl;
 
-    vector<string> found =
-        warehouse.search(50);
+    cout << "\nSearching for 68kg, which is not exact:\n";
+    found = warehouse.searchClosest(68, returnedWeight, exactMatch);
+    cout << "Returned closest weight: " << returnedWeight << " exact: " << exactMatch << endl;
+    for (const string& item : found) cout << item << endl;
 
-    for (const string& item : found)
-        cout << item << endl;
-
-    //delete example
     warehouse.remove(30);
-
     cout << "\nAfter removing 30kg:\n";
     warehouse.display();
 
     return 0;
 }
-

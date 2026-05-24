@@ -106,6 +106,29 @@ public:
 					//getting edge weights
 					int weight = edge->second;
 
+
+
+					int newDistance = weight[currentVertex] + roadDistance;
+					int newToll = tollCost[currentVertex] + tolls[nextVertex];
+
+
+					int newCost;
+
+
+					if (mode == "shoretest") {
+						newCost = newDistance
+					}
+					else if (mode == "cheapest"){
+						newCost = newToll;
+					}
+					else {
+						newCost = newDistance + newToll;
+					}
+
+
+					if(newCost < cost[newVertex]) {
+						}
+
 					//checking if shorter path exist
 					if(distances[nextVertex] > distances[currentVertex] + weight) {
 						
@@ -124,17 +147,60 @@ public:
 			}
 
 		}
-		//displaying results
-		cout<<"Shortest distances from vertex: "<< start << endl;
-		//printing all shortest distances
-		for(int i = 0; i < Vertices; i++) {
-			cout<< "Vertex: "
-			<< i
-			<< "\tDistance: "
-			<< distances[i]
-			<< endl;
+
+
+		//saving final distance
+		finalDistance = distance[end];
+
+		//saving final toll
+		finalToll = tollCost[end];
+
+		//storing final path
+		vector<int> path;
+
+		//starting from end node
+		int current = end;
+
+
+		//following parents backwards
+		while (current != -1) {
+			path.push_back(current);
+			current = parent[current];
 		}
 
+		//reversing path so it goes from start to end
+		reverse(path.begin(), path.end());
+
+		return path;
+
+	
+	}
+	//printing route
+	void printRoute(string name, vector<int> path, int distance, int toll){
+		cout << name << endl;
+
+		cout << "Path: ";
+
+		//printing each node as the alphabet (A, B, C, D,...)
+		for (inti = 0; i < path.size(); i++){
+			cout << char('A' + path[i]);
+
+			if (i != path.size() - 1){
+				cout<<" -> ";
+			}
+		}
+	}
+
+
+	cout<< endl;
+	cout << "Distance: " << distance<<endl;
+	cout << "Tolls: " << toll << endl;
+	cout << "Balanced cost: " << distance + toll << endl;
+	cout << endl;
+		}
+	//checking if route a is worse than b
+	bool isBadRoute(int distanceA, int tollA, int distanceB, tollB) {
+		return distanceA > distanceB && tollA > tollB;
 	}
 
 };
